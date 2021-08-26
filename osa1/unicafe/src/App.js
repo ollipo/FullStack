@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 
+const DisplayPositive = ({ count, text }) => <p>{text} {count} %</p>
+
 const Display = ({ count, text }) => <p>{text} {count}</p>
 
 const Button = ({ handleClick, text }) =>
@@ -23,6 +25,9 @@ const App = () => {
       <Display count={good} text='good' />
       <Display count={neutral} text='neutral' />
       <Display count={bad} text='bad' />
+      <Display count={good + neutral + bad} text='all' />
+      <Display count={(good - bad)/(good + neutral + bad).toFixed(14)} text='average' />
+      <DisplayPositive count={(good / (good + neutral + bad) * 100).toFixed(14)} text='positive' />
     </div>
   )
 }
