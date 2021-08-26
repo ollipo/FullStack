@@ -7,21 +7,31 @@ const Statistics = ({ good, neutral, bad }) => {
     )
     } else {
       return (
-        <div>
-          <StatisticLine count={good} text='good' />
-          <StatisticLine count={neutral} text='neutral' />
-          <StatisticLine count={bad} text='bad' />
-          <StatisticLine count={good + neutral + bad} text='all' />
-          <StatisticLine count={(good - bad)/(good + neutral + bad).toFixed(14)} text='average' />
-          <StatisticLinePositive count={(good / (good + neutral + bad) * 100).toFixed(14)} text='positive' />
-        </div>
+        <table>
+          <tbody>
+              <StatisticLine count={good} text='good' />
+              <StatisticLine count={neutral} text='neutral' />
+              <StatisticLine count={bad} text='bad' />
+              <StatisticLine count={good + neutral + bad} text='all' />
+              <StatisticLine count={((good - bad)/(good + neutral + bad)).toFixed(1)} text='average' />
+              <StatisticLinePositive count={(good / (good + neutral + bad) * 100).toFixed(1)} text='positive' />
+          </tbody>
+        </table>
       )
     }
 }
 
-const StatisticLinePositive = ({ count, text }) => <p>{text} {count} %</p>
+const StatisticLinePositive = ({ count, text }) =>
+  <tr>
+    <td>{text} </td>
+    <td>{count} %</td>
+  </tr>
 
-const StatisticLine = ({ count, text }) => <p>{text} {count}</p>
+const StatisticLine = ({ count, text }) => 
+  <tr>
+    <td>{text} </td>
+    <td>{count}</td>
+  </tr>
 
 const Button = ({ handleClick, text }) =>
   <button onClick={handleClick}>
