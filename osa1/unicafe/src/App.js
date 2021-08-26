@@ -8,20 +8,20 @@ const Statistics = ({ good, neutral, bad }) => {
     } else {
       return (
         <div>
-          <Display count={good} text='good' />
-          <Display count={neutral} text='neutral' />
-          <Display count={bad} text='bad' />
-          <Display count={good + neutral + bad} text='all' />
-          <Display count={(good - bad)/(good + neutral + bad).toFixed(14)} text='average' />
-          <DisplayPositive count={(good / (good + neutral + bad) * 100).toFixed(14)} text='positive' />
+          <StatisticLine count={good} text='good' />
+          <StatisticLine count={neutral} text='neutral' />
+          <StatisticLine count={bad} text='bad' />
+          <StatisticLine count={good + neutral + bad} text='all' />
+          <StatisticLine count={(good - bad)/(good + neutral + bad).toFixed(14)} text='average' />
+          <StatisticLinePositive count={(good / (good + neutral + bad) * 100).toFixed(14)} text='positive' />
         </div>
       )
     }
 }
 
-const DisplayPositive = ({ count, text }) => <p>{text} {count} %</p>
+const StatisticLinePositive = ({ count, text }) => <p>{text} {count} %</p>
 
-const Display = ({ count, text }) => <p>{text} {count}</p>
+const StatisticLine = ({ count, text }) => <p>{text} {count}</p>
 
 const Button = ({ handleClick, text }) =>
   <button onClick={handleClick}>
