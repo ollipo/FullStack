@@ -1,16 +1,22 @@
 import React, { useState } from 'react'
 
 const Statistics = ({ good, neutral, bad }) => {
-  return (
-    <div>
-      <Display count={good} text='good' />
-      <Display count={neutral} text='neutral' />
-      <Display count={bad} text='bad' />
-      <Display count={good + neutral + bad} text='all' />
-      <Display count={(good - bad)/(good + neutral + bad).toFixed(14)} text='average' />
-      <DisplayPositive count={(good / (good + neutral + bad) * 100).toFixed(14)} text='positive' />
-    </div>
-  )
+  if(good === 0 && neutral === 0 && bad === 0) {
+    return (
+      <p>No feedback given!</p>
+    )
+    } else {
+      return (
+        <div>
+          <Display count={good} text='good' />
+          <Display count={neutral} text='neutral' />
+          <Display count={bad} text='bad' />
+          <Display count={good + neutral + bad} text='all' />
+          <Display count={(good - bad)/(good + neutral + bad).toFixed(14)} text='average' />
+          <DisplayPositive count={(good / (good + neutral + bad) * 100).toFixed(14)} text='positive' />
+        </div>
+      )
+    }
 }
 
 const DisplayPositive = ({ count, text }) => <p>{text} {count} %</p>
