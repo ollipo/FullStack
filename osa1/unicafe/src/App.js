@@ -1,5 +1,18 @@
 import React, { useState } from 'react'
 
+const Statistics = ({ good, neutral, bad }) => {
+  return (
+    <div>
+      <Display count={good} text='good' />
+      <Display count={neutral} text='neutral' />
+      <Display count={bad} text='bad' />
+      <Display count={good + neutral + bad} text='all' />
+      <Display count={(good - bad)/(good + neutral + bad).toFixed(14)} text='average' />
+      <DisplayPositive count={(good / (good + neutral + bad) * 100).toFixed(14)} text='positive' />
+    </div>
+  )
+}
+
 const DisplayPositive = ({ count, text }) => <p>{text} {count} %</p>
 
 const Display = ({ count, text }) => <p>{text} {count}</p>
@@ -22,12 +35,7 @@ const App = () => {
       <Button handleClick={() => setNeutral(neutral + 1)} text='neutral' />
       <Button handleClick={() => setBad(bad + 1)} text='bad' />
       <h2>Statistics:</h2>
-      <Display count={good} text='good' />
-      <Display count={neutral} text='neutral' />
-      <Display count={bad} text='bad' />
-      <Display count={good + neutral + bad} text='all' />
-      <Display count={(good - bad)/(good + neutral + bad).toFixed(14)} text='average' />
-      <DisplayPositive count={(good / (good + neutral + bad) * 100).toFixed(14)} text='positive' />
+      <Statistics good={good} neutral={neutral} bad={bad} />
     </div>
   )
 }
