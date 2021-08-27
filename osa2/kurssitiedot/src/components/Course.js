@@ -12,7 +12,7 @@ const Part = ({ name, exercise }) => {
 }
 
 const Content = ({ parts }) => {
-  console.log(parts)
+  console.log('Content', parts)
   return (
   <div>
     <ul>
@@ -24,13 +24,24 @@ const Content = ({ parts }) => {
   )
 }
 
-//const Total = (props) => <p>Number of exercises {props.parts[0].exercises + props.parts[1].exercises + props.parts[2].exercises} </p>
+const Total = ({ parts }) => {
+    const totalAmount = parts
+      .map(part => part.exercises)
+      .reduce((total, count) => {
+        
+        return total + count}, 0)
+        
+    return (
+        <p>Total of {totalAmount} exercises </p>
+    )
+}
 
 const Course = ({ course }) => {
     return (
         <div>
             <Header course={course} />
             <Content parts={course.parts} />
+            <Total parts={course.parts} />
         </div>
     )
 }
