@@ -1,6 +1,7 @@
 import React from 'react'
 
-//Filters persons by users input values and maps them to the screen
+//Filters countries by users filter values and maps them to the screen
+//If only one country, shows basic data about the country
 const FilteredCountries = ({ countries, filterName }) => {
     const filteredCountries = countries.filter(country => country.name.search(new RegExp(filterName, 'i')) > -1)
    
