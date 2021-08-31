@@ -7,7 +7,7 @@ const FilterInput = ({ handleNameFiltering, filterName }) => {
         <input 
             value={filterName}
             onChange={handleNameFiltering}
-      />
+        />
     )
 }
 
