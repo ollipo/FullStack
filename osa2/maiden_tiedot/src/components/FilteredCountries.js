@@ -3,7 +3,7 @@ import React from 'react'
 //Filters countries by users filter values or after show button pressed
 //and maps them to the screen
 //If only one country, shows basic data about the country
-const FilteredCountries = ({ countries, filterName, setFilterName }) => {
+const FilteredCountries = ({ countries, countryWeather, setCountryName, filterName, setFilterName }) => {
     const filteredCountries = 
         countries
         .filter(country => country.name
@@ -11,6 +11,7 @@ const FilteredCountries = ({ countries, filterName, setFilterName }) => {
     
     
     if(filteredCountries.length === 1) {
+        setCountryName(filteredCountries[0].name)
         return (
             <div>
                 {filteredCountries
@@ -29,7 +30,22 @@ const FilteredCountries = ({ countries, filterName, setFilterName }) => {
                             alt='flag of the country'
                             height='auto'
                             width='10%'
-                        />           
+                        />
+                        <div>
+                        <h2>Weather in {countryWeather.location.name}</h2>
+                        <p>
+                        <b>temperature: </b> {countryWeather.current.temp_c} celcius
+                        </p>
+                        <img
+                        src={countryWeather.current.condition.icon}
+                        alt='weather icons'
+                        />
+                        <p>
+                        <b>wind: </b> {countryWeather.current.wind_kph} kph
+                        direction {countryWeather.current.wind_dir}
+                        </p>
+                        </div>
+                        
                     </div>)}
             </div>
         )

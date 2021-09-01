@@ -6,6 +6,10 @@ import FilterInput from './components/FilterInput'
 const App = () => {
   const [ countries, setCountries] = useState([])
   const [ filterName, setFilterName ] = useState('')
+  const [ countryWeather, setCountryWeather] = useState({})
+  const [ countryName, setCountryName] = useState('Helsinki')
+
+  console.log(countryWeather)
 
   useEffect(() => {
     axios
@@ -14,6 +18,14 @@ const App = () => {
         setCountries(response.data)
       })
   }, [])
+
+  useEffect(() => {
+    axios
+    .get(`https://api.weatherapi.com/v1/current.json?key=${process.env.REACT_APP_API_KEY}&q=${countryName}&aqi=no`)
+    .then(response => {
+        setCountryWeather(response.data)
+        })
+    }, [countryName])
 
   const handleNameFiltering = (event) => {
     setFilterName(event.target.value)
@@ -30,6 +42,8 @@ const App = () => {
       <FilteredCountries
         countries={countries}
         filterName={filterName}
+        countryWeather={countryWeather}
+        setCountryName={setCountryName}
         setFilterName={setFilterName} />
     </div>
   )
