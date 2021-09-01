@@ -28,9 +28,9 @@ const App = () => {
         filterName={filterName}
       />
       <FilteredCountries
-        countries={countries} 
+        countries={countries}
         filterName={filterName}
-        setFilterName={setFilterName}/>
+        setFilterName={setFilterName} />
     </div>
   )
 

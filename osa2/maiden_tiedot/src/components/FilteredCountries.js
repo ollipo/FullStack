@@ -4,23 +4,25 @@ import React from 'react'
 //and maps them to the screen
 //If only one country, shows basic data about the country
 const FilteredCountries = ({ countries, filterName, setFilterName }) => {
-    const filteredCountries = countries
-    .filter(country => country.name.search(new RegExp(filterName, 'i')) > -1)
+    const filteredCountries = 
+        countries
+        .filter(country => country.name
+        .search(new RegExp(filterName, 'i')) > -1)
     
-    console.log(filteredCountries)
+    
     if(filteredCountries.length === 1) {
         return (
             <div>
                 {filteredCountries
                 .map(country =>
-                    <div key={country.name}>
+                    <div key={country.alpha3Code}>
                         <h1>{country.name}</h1>
                         <p>capital {country.capital}</p>
                         <p>population {country.population}</p>
                         <h2>Languages</h2>
-                        <p>{country.languages
-                        .map(language =>
-                            <li>{language.name}</li>)}
+                        <p>
+                        {country.languages.map(language =>
+                            <li key={language.name}>{language.name}</li>)}
                         </p>
                         <img 
                             src={country.flag} 
@@ -36,7 +38,7 @@ const FilteredCountries = ({ countries, filterName, setFilterName }) => {
             <div>
                 {filteredCountries
                 .map(country =>
-                <p key={country.name}>
+                <p key={country.alpha3Code}>
                     {country.name}
                     <button onClick={() => setFilterName(country.name)}>
                         show
