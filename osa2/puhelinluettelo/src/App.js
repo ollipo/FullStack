@@ -10,6 +10,8 @@ const App = () => {
   const [ newNumber, setNewNumber ] = useState('')
   const [ filterName, setFilterName ] = useState('')
 
+  console.log('alku: ', persons)
+
   useEffect(() => {
     personService
       .getAll()
@@ -35,6 +37,13 @@ const App = () => {
         setNewName('')
         setNewNumber('')
       })
+    }
+  }
+
+  const handleDelete = (id, name) => {
+    if (window.confirm(`Delete ${name} ?`)) {
+      personService.destroy(id)
+      setPersons(persons.filter(n => n.id !== id))
     }
   }
 
@@ -70,7 +79,11 @@ const App = () => {
         handleNumberChange={handleNumberChange}
       />
       <h2>Numbers</h2>
-      <FilteredPersons persons={persons} filterName={filterName} />
+      <FilteredPersons 
+        persons={persons} 
+        filterName={filterName} 
+        handleDelete={handleDelete}
+      />
     </div>
   )
 
