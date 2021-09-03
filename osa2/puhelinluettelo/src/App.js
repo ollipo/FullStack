@@ -9,6 +9,7 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ filterName, setFilterName ] = useState('')
+  const [ notification, setNotification ] = useState('')
 
   console.log('alku: ', persons)
 
@@ -39,6 +40,12 @@ const App = () => {
           .then(returnedPerson => {
             console.log('returnedPerson: ', returnedPerson)
             setPersons(persons.map(person => person.id !== changedPerson.id ? person : changedPerson))
+            setNotification(
+              `Changed number of ${changedPerson.name}`
+            )
+            setTimeout(() => {
+              setNotification(null)
+            }, 3000)
             setNewName('')
             setNewNumber('')
           })
@@ -48,16 +55,40 @@ const App = () => {
       .create(nameObject)
       .then(returnedPerson => {
         setPersons(persons.concat(returnedPerson))
+        setNotification(
+          `Added ${returnedPerson.name}`
+        )
+        setTimeout(() => {
+          setNotification(null)
+        }, 3000)
         setNewName('')
         setNewNumber('')
       })
     }
   }
 
+  const Notification = ({ message }) => {
+    if (message === null) {
+      return null
+    }
+  
+    return (
+      <div className="notification">
+        {message}
+      </div>
+    )
+  }
+
   const handleDelete = (id, name) => {
     if (window.confirm(`Delete ${name} ?`)) {
       personService.destroy(id)
       setPersons(persons.filter(n => n.id !== id))
+      setNotification(
+        `Deleted ${name}`
+      )
+      setTimeout(() => {
+        setNotification(null)
+      }, 3000)
     }
   }
 
@@ -91,7 +122,8 @@ const App = () => {
         handleNameChange={handleNameChange}
         newNumber={newNumber}
         handleNumberChange={handleNumberChange}
-      />
+      />      
+      <Notification message={notification} />
       <h2>Numbers</h2>
       <FilteredPersons 
         persons={persons} 
