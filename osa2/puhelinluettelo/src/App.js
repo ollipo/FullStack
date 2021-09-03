@@ -9,7 +9,8 @@ const App = () => {
   const [ newName, setNewName ] = useState('')
   const [ newNumber, setNewNumber ] = useState('')
   const [ filterName, setFilterName ] = useState('')
-  const [ notification, setNotification ] = useState('')
+  const [ notification, setNotification ] = useState(null)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   console.log('alku: ', persons)
 
@@ -36,15 +37,25 @@ const App = () => {
         console.log('changedPersonId: ', changedPerson.id)
       
         personService
-          .update(changedPerson.id, changedPerson)
-          .then(returnedPerson => {
-            console.log('returnedPerson: ', returnedPerson)
+          .update(changedPerson.id, changedPerson, setErrorMessage)
+          .then(response => {
+            console.log('response: ', response)
             setPersons(persons.map(person => person.id !== changedPerson.id ? person : changedPerson))
             setNotification(
               `Changed number of ${changedPerson.name}`
             )
             setTimeout(() => {
               setNotification(null)
+            }, 3000)
+            setNewName('')
+            setNewNumber('')
+          })
+          .catch(error => {
+            setErrorMessage(
+              `Information of '${changedPerson.name}' has already been removed from server`
+            )
+            setTimeout(() => {
+              setErrorMessage(null)
             }, 3000)
             setNewName('')
             setNewNumber('')
@@ -67,6 +78,19 @@ const App = () => {
     }
   }
 
+  const handleDelete = (id, name) => {
+    if (window.confirm(`Delete ${name} ?`)) {
+      personService.destroy(id)
+      setPersons(persons.filter(n => n.id !== id))
+      setNotification(
+        `Deleted ${name}`
+      )
+      setTimeout(() => {
+        setNotification(null)
+      }, 3000)
+    }
+  }
+
   const Notification = ({ message }) => {
     if (message === null) {
       return null
@@ -79,17 +103,16 @@ const App = () => {
     )
   }
 
-  const handleDelete = (id, name) => {
-    if (window.confirm(`Delete ${name} ?`)) {
-      personService.destroy(id)
-      setPersons(persons.filter(n => n.id !== id))
-      setNotification(
-        `Deleted ${name}`
-      )
-      setTimeout(() => {
-        setNotification(null)
-      }, 3000)
+  const ErrorMessage = ({ message }) => {
+    if (message === null) {
+      return null
     }
+  
+    return (
+      <div className="errorMessage">
+        {message}
+      </div>
+    )
   }
 
   const handleNameChange = (event) => {
@@ -124,6 +147,7 @@ const App = () => {
         handleNumberChange={handleNumberChange}
       />      
       <Notification message={notification} />
+      <ErrorMessage message={errorMessage} />
       <h2>Numbers</h2>
       <FilteredPersons 
         persons={persons} 

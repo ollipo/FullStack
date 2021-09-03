@@ -13,8 +13,10 @@ const create = newObject => {
   
 const update = (id, newObject) => {
     console.log('update: ', id, newObject)
-    const request = axios.put(`${baseUrl}/${id}`, newObject)
-    return request.then(response => response.data)
+    const request= axios.put(`${baseUrl}/${id}`, newObject)
+    return request
+    .then(response => response.data)
+    .catch(error => request)
 }
 
 const destroy = (id) => {
