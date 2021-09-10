@@ -2,7 +2,7 @@ POST http://localhost:3001/api/blogs
 Content-Type: application/json
 
 {
-    "title": "Flowers",
+    "title": "Flowers2",
     "author": "John",
     "url": "www.flower.fi",
     "likes": 3
