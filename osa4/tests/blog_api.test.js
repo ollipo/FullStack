@@ -61,6 +61,45 @@ test('a valid blog can be added ', async () => {
 	)
 })
 
+
+test('a blog without likes property returns 0 to likes', async () => {
+	const newBlog = {
+		title: 'A blog without likes property returns 0 to likes',
+		author: 'I & myself',
+		url: 'www.jippii.fi',
+	}
+
+	const result = await api
+		.post('/api/blogs')
+		.send(newBlog)
+		.expect(201)
+
+	const blogsAtEnd = await helper.blogsInDb()
+	expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length + 1)
+
+	const zeroLikes = blogsAtEnd.find(n => n.id.toString() === result.body.id)
+	expect(zeroLikes.likes).toBe(0)
+})
+
+test('a blog without title or url property returns status code 400', async () => {
+	const newBlog = {
+		author: 'Me, I & myself',
+	}
+
+	await api
+		.post('/api/blogs')
+		.send(newBlog)
+		.expect(400)
+
+	const blogsAtEnd = await helper.blogsInDb()
+	expect(blogsAtEnd).toHaveLength(helper.initialBlogs.length)
+
+	const authors = blogsAtEnd.map(n => n.author)
+	expect(authors).not.toContain(
+		'Me, I & myself'
+	)
+})
+
 afterAll(() => {
 	mongoose.connection.close()
 })
