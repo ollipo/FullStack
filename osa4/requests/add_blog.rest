@@ -1,8 +1,9 @@
 POST http://localhost:3001/api/blogs
 Content-Type: application/json
+Authorization: bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im9sbGlwbzIiLCJpZCI6IjYxNDA5YWI1ZDAwNTRlMjMxYThhMDgyYSIsImlhdCI6MTYzMTY0MzQyMH0.a2s4_UMGjQA4uhdYJ0Bh-mWdiXH9nnrpz-2gkoPGGP0
 
 {
-    "title": "Flowers6",
+    "title": "Flowers7",
     "author": "John",
     "url": "www.flower.fi",
     "likes": 3
