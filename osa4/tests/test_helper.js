@@ -8,6 +8,9 @@ const initialBlogs = [
 		author: 'Robert C. Martin',
 		url: 'http://blog.cleancoder.com/uncle-bob/2017/05/05/TestDefinitions.htmll',
 		likes: 10,
+		user: {
+			_id: '6142641c964bf7f364cee2dd'
+		},
 		__v: 0
 	},
 	{
@@ -20,14 +23,6 @@ const initialBlogs = [
 	}
 ]
 
-/* const nonExistingId = async () => {
-	const note = new Note({ content: 'willremovethissoon', date: new Date() })
-	await note.save()
-	await note.remove()
-
-	return note._id.toString()
-} */
-
 const blogsInDb = async () => {
 	const blogs = await Blog.find({})
 	return blogs.map(blog => blog.toJSON())
@@ -39,5 +34,5 @@ const usersInDb = async () => {
 }
 
 module.exports = {
-	initialBlogs, blogsInDb, usersInDb /* nonExistingId,  */
+	initialBlogs, blogsInDb, usersInDb
 }
