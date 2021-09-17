@@ -11,6 +11,8 @@ const App = () => {
   const [author, setAuthor] = useState('')
   const [url, setUrl] = useState('')
   const [user, setUser] = useState(null)
+  const [ notification, setNotification ] = useState(null)
+  const [ errorMessage, setErrorMessage ] = useState(null)
 
   useEffect(() => {
     blogService.getAll().then(blogs =>
@@ -23,6 +25,7 @@ const App = () => {
     if (loggedUserJSON) {
       const user = JSON.parse(loggedUserJSON)
       setUser(user)
+      blogService.setToken(user.token)
     }
   }, [])
 
@@ -36,33 +39,34 @@ const App = () => {
       window.localStorage.setItem(
         'loggedBlogappUser', JSON.stringify(user)
       )
+      console.info('token changing? ', user.token)
       blogService.setToken(user.token)
       setUser(user)
       setUsername('')
       setPassword('')
+      setNotification(`You're now logged in ${user.name}`)
+      setTimeout(() => {
+        setNotification(null)
+      }, 1500)
     } catch (exception) {
-      /* setErrorMessage('Wrong credentials')
+      setErrorMessage('Wrong or missing username or password')
       setTimeout(() => {
         setErrorMessage(null)
-      }, 5000) */
+      }, 3000)
     }
   }
 
   const handleLogout = async (event) => {
-    try {
       window.localStorage.removeItem('loggedBlogappUser')
       setUser(null)
       setUsername('')
       setPassword('')
-    } catch (exception) {
-      /* setErrorMessage('Wrong credentials')
-      setTimeout(() => {
-        setErrorMessage(null)
-      }, 5000) */
-    }
+      setTitle('')
+      setAuthor('')
+      setUrl('')
   }
 
-  const addBlog = (event) => {
+  const addBlog = async (event) => {
     event.preventDefault()
     const blogObject = {
       title: title,
@@ -70,14 +74,23 @@ const App = () => {
       url: url
     }
   
-    blogService
-      .create(blogObject)
-      .then(returnedBlog => {
+    try {
+      const returnedBlog = await blogService.create(blogObject)
         setBlogs(blogs.concat(returnedBlog))
         setTitle('')
         setAuthor('')
         setUrl('')
-      })
+        setNotification(`${user.name}, you created a new blog post`)
+        setTimeout(() => {
+          setNotification(null)
+        }, 3000)
+    } catch (exception) {
+      setErrorMessage('Missing a title, an author or an url')
+      setTimeout(() => {
+        setErrorMessage(null)
+      }, 3000)
+    }
+    
   }
 
   const loginForm = () => (
@@ -137,15 +150,43 @@ const App = () => {
     </form>  
   )
 
+  const Notification = ({ message }) => {
+    if (message === null) {
+      return null
+    }
+  
+    return (
+      <div className="notification">
+        {message}
+      </div>
+    )
+  }
+
+  const ErrorMessage = ({ message }) => {
+    if (message === null) {
+      return null
+    }
+  
+    return (
+      <div className="errorMessage">
+        {message}
+      </div>
+    )
+  }
+
   return (
     <div>
       {user === null ?
       <div>
         <h2>Log in to application</h2>
+        <Notification message={notification} />
+        <ErrorMessage message={errorMessage} />
         {loginForm()} 
       </div>:
       <div>
         <h2>blogs</h2>
+        <Notification message={notification} />
+        <ErrorMessage message={errorMessage} />
         <p>
           {user.name} logged in
           <button onClick={handleLogout}>logout</button>
