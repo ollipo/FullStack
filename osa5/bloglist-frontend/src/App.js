@@ -38,7 +38,6 @@ const App = () => {
       window.localStorage.setItem(
         'loggedBlogappUser', JSON.stringify(user)
       )
-      console.info('token changing? ', user.token)
       blogService.setToken(user.token)
       setUser(user)
       setUsername('')
@@ -157,7 +156,13 @@ const App = () => {
         {blogs
         .sort((a, b) => b.likes - a.likes)
         .map(blog =>
-          <Blog key={blog.id} blog={blog} user={user} />
+          <Blog 
+            key={blog.id}
+            blog={blog}
+            user={user} 
+            blogs={blogs}
+            setBlogs={setBlogs}
+          />
         )}
       </div>
       }
