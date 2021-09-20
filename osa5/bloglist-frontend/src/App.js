@@ -7,9 +7,9 @@ import BlogForm from './components/BlogForm'
 
 const App = () => {
   const [blogs, setBlogs] = useState([])
-  const [username, setUsername] = useState('') 
-  const [password, setPassword] = useState('')
-  const [user, setUser] = useState(null)
+  const [ username, setUsername ] = useState('') 
+  const [ password, setPassword ] = useState('')
+  const [ user, setUser ] = useState(null)
   const [ notification, setNotification ] = useState(null)
   const [ errorMessage, setErrorMessage ] = useState(null)
 
@@ -108,9 +108,7 @@ const App = () => {
 
   const blogForm = () => (
     <Togglable buttonLabel='create new blog' ref={blogFormRef}>
-      <BlogForm 
-        createBlog={addBlog}
-      />
+      <BlogForm createBlog={addBlog} />
     </Togglable>
   )
 
@@ -157,7 +155,7 @@ const App = () => {
         </p>
         {blogForm()}
         {blogs.map(blog =>
-          <Blog key={blog.id} blog={blog} />
+          <Blog key={blog.id} blog={blog} name={user.name} />
         )}
       </div>
       }
