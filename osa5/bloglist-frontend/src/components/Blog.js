@@ -43,8 +43,9 @@ const Blog = ({ blog, user }) => {
 
   return (
   <div style={blogStyle}>
-    <div style={hideDetailsWhenVisible}>
-      {blog.title} {blog.author}
+    <div style={hideDetailsWhenVisible} className='initialRender'>
+      {blog.title}
+      {blog.author}
       <button onClick={toggleVisibility}>view</button>
     </div>
     <div style={showDetailsWhenVisible}>
