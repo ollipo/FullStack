@@ -1,10 +1,12 @@
 import React from 'react'
 import '@testing-library/jest-dom/extend-expect'
-import { render } from '@testing-library/react'
+import { render, fireEvent } from '@testing-library/react'
 import Blog from './Blog'
 
-test('renders content', () => {
-  
+describe('<Blog />', () => {
+let component
+
+beforeEach(() => {
     const user = {
         token: 'jokutoken',
         username: 'userusername',
@@ -19,47 +21,39 @@ test('renders content', () => {
         likes: 7
     }
 
-  const component = render(
+  component = render(
     <Blog blog={blog} user={user}/>
   )
 
-  component.debug()
+})
 
-  const divTitle = component.container.querySelector('.initialRender')
-  expect(divTitle).toHaveTextContent(
-    'Testing the rendering of the component'
-  )
+test('renders initial content', () => {
 
-  const divAuthor = component.container.querySelector('.initialRender')
-  expect(divAuthor).toHaveTextContent(
-    'Moro Kolli'
-  )
-  const divUrl = component.container.querySelector('.initialRender')
-  expect(divUrl).not.toHaveTextContent(
-    'www.testi.fi'
-  )
+  const div = component.container.querySelector('.initialRender')
+  
+  expect(div).not.toHaveStyle('display: none')
 
-  const divLikes = component.container.querySelector('.initialRender')
-  expect(divLikes).not.toHaveTextContent(
-    'like'
-  )
+  expect(div).toHaveTextContent('Testing the rendering of the component')
+  expect(div).toHaveTextContent('Moro Kolli')
+  
+  expect(div).not.toHaveTextContent('www.testi.fi')
+  expect(div).not.toHaveTextContent('like')
   
 })
 
-/* test('clicking the button calls event handler once', () => {
-  const note = {
-    content: 'Component testing is done with react-testing-library',
-    important: true
-  }
+test('renders content after clicking view button', () => {
 
-  const mockHandler = jest.fn()
+  const div = component.container.querySelector('.renderAfterViewButtonPressed')
+  
+  expect(div).toHaveStyle('display: none')
 
-  const component = render(
-    <Note note={note} toggleImportance={mockHandler} />
-  )
-
-  const button = component.getByText('make not important')
+  const button = component.getByText('view')
   fireEvent.click(button)
 
-  expect(mockHandler.mock.calls).toHaveLength(1)
-}) */
+  expect(div).not.toHaveStyle('display: none')
+  
+  expect(div).toHaveTextContent('www.testi.fi')
+  expect(div).toHaveTextContent('like')
+})
+
+})
