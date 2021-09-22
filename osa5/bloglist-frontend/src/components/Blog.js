@@ -11,15 +11,6 @@ const Blog = ({ blog, user, handleLikes }) => {
 		setVisible(!visible)
 	}
 
-	/*   const handleLikeIncrease = async () => {
-    const blogUpdate = {
-      id: blog.id,
-      likes: likes + 1
-    }
-    const updatedBlog = await blogService.update(blogUpdate)
-    setLikes(updatedBlog.likes)
-  } */
-
 	const handleRemove = async () => {
 		if(window.confirm(`Remove blog ${blog.title} ${blog.author}?`))
 			await blogService.remove(blog.id)

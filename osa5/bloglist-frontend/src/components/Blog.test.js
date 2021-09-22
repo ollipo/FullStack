@@ -26,8 +26,6 @@ describe('<Blog />', () => {
 			<Blog blog={blog} user={user} handleLikes={mockHandler}/>
 		)
 
-		component.debug()
-
 	})
 
 	test('renders initial content', () => {
