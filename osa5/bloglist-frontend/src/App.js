@@ -169,6 +169,8 @@ const App = () => {
 								blog={blog}
 								user={user}
 								handleLikes={handleLikes}
+								setBlogs={setBlogs}
+								blogs={blogs}
 							/>
 						)}
 				</div>
