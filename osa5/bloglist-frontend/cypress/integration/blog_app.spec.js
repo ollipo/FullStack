@@ -53,6 +53,39 @@ describe('Blog app', function() {
 			cy.contains('ollipo')
 		})
 
+		it('blogs are ordered descending', function() {
+			cy.createBlog({ title: 'kodinykkönen', author: 'anttila', url: 'http://kodinykkonen.dot' })
+			cy.createBlog({ title: 'patakakkonen', author: 'jaakko', url: 'http://tunnari.com' })
+			cy.createBlog({ title: 'kokkikolmonen', author: 'aihinen', url: 'http://patajakattila.foo' })
+
+			cy.contains('kodinykkönen').parent().as('blog1')
+			cy.contains('patakakkonen').parent().as('blog2')
+			cy.contains('kokkikolmonen').parent().as('blog3')
+
+			cy.get('@blog1').contains('view').click()
+			cy.get('@blog1').contains('like').click()
+
+			cy.get('@blog2').contains('view').click()
+			cy.get('@blog2').contains('like').click()
+			cy.get('@blog2').contains('like').click()
+
+			cy.get('@blog3').contains('view').click()
+			cy.get('@blog3').contains('like').click()
+			cy.get('@blog3').contains('like').click()
+			cy.get('@blog3').contains('like').click()
+
+			const blogShouldHaveNumberOfLikes = (order, likes) => {
+				cy.get('.renderAfterViewButtonPressed')
+					.eq(order)
+					.within(() =>
+						cy.get('#blogLikes')
+							.contains(likes))
+			}
+			blogShouldHaveNumberOfLikes(0, 3)
+			blogShouldHaveNumberOfLikes(1, 2)
+			blogShouldHaveNumberOfLikes(2, 1)
+		})
+
 		describe('And a blog exists', function() {
 			beforeEach(function () {
 				cy.createBlog({
@@ -82,7 +115,6 @@ describe('Blog app', function() {
 				cy.contains('view').click()
 				cy.get('.remove').should('not.exist')
 			})
-
 		})
 	})
 
