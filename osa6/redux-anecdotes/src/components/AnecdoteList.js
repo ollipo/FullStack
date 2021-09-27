@@ -19,6 +19,7 @@ const Anecdote = ({ anecdote, handleClick }) => {
 
 const Anecdotes = () => {
   const anecdotes = useSelector(state => state.anecdotes)
+  const filter = useSelector(state => state.filter)
   const dispatch = useDispatch()
 
   const vote = (anecdote) => {
@@ -32,6 +33,8 @@ const Anecdotes = () => {
   return (
     <div>
         {anecdotes
+            .filter(anecdote => anecdote.content
+            .search(new RegExp(filter, 'i')) > -1)
             .sort((a, b) => b.votes - a.votes)
             .map(anecdote =>
                 <Anecdote
