@@ -1,3 +1,5 @@
+import anecdoteService from '../services/anecdotes'
+
 const notificationReducer = (state = null, action) => {
     switch (action.type) {
         case 'SET_NOTIFICATION':
@@ -9,7 +11,16 @@ const notificationReducer = (state = null, action) => {
     }
   }
 
-export const setNotification = notification => {
+export const setNotification = (content, sec) => {
+    return async dispatch => {
+        await dispatch(createNotification(content))
+        setTimeout(() => {
+          dispatch(removeNotification())
+        }, sec*1000 )
+    }
+}
+
+export const createNotification = notification => {
     return {
         type: 'SET_NOTIFICATION',
         notification,
