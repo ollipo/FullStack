@@ -37,10 +37,19 @@ export const voteOf = (id) => {
   }
 }
 
-const reducer = (state = initialState, action) => {
+export const initializeAnecdotes = (anecdotes) => {
+  return {
+    type: 'INIT_ANECDOTES',
+    data: anecdotes,
+  }
+}
+
+const reducer = (state = [], action) => {
   switch(action.type) {
     case 'NEW_ANECDOTE':
       return [...state, action.data]
+    case 'INIT_ANECDOTES':
+      return action.data
     case 'VOTE': {
       const id = action.data.id
       const anecdoteToChange = state.find(n => n.id === id)
