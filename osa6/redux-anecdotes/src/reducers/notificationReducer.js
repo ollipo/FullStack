@@ -1,5 +1,3 @@
-import anecdoteService from '../services/anecdotes'
-
 const notificationReducer = (state = null, action) => {
     switch (action.type) {
         case 'SET_NOTIFICATION':
@@ -9,14 +7,17 @@ const notificationReducer = (state = null, action) => {
         default:
             return state
     }
-  }
-
+}
+let timeOut
 export const setNotification = (content, sec) => {
     return async dispatch => {
         await dispatch(createNotification(content))
-        setTimeout(() => {
-          dispatch(removeNotification())
-        }, sec*1000 )
+        if (timeOut){
+            clearTimeout(timeOut)
+            timeOut = null
+        }
+        timeOut = setTimeout(() => 
+            {dispatch(removeNotification())}, sec*1000 )
     }
 }
 
