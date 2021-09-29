@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import  { useField } from './hooks'
+import  { useField, useReset } from './hooks'
 import {
   Switch, Route, Link, useRouteMatch, useHistory
 } from "react-router-dom"
@@ -53,9 +53,9 @@ const Footer = () => (
 )
 
 const CreateNew = (props) => {
-  const content = useField('content')
-  const author = useField('author')
-  const info = useField('info')
+  const content = useField()
+  const author = useField()
+  const info = useField()
 
   const history = useHistory()
 
@@ -72,10 +72,17 @@ const CreateNew = (props) => {
     setTimeout(() => props.setNotification(null), 10000)
   }
 
+  const handleReset = (e) => {
+    e.preventDefault()
+    content.onReset()
+    author.onReset()
+    info.onReset()
+  }
+
   return (
     <div>
       <h2>create a new anecdote</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={handleSubmit} onReset={handleReset}>
         <div>
           content
           <input {...content} />
@@ -88,7 +95,8 @@ const CreateNew = (props) => {
           url for more info
           <input {...info} />
         </div>
-        <button>create</button>
+        <input type="submit" value="Create" />
+        <input type="reset" value="Reset" />
       </form>
     </div>
   )
