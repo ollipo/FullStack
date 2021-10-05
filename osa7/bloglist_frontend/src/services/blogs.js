@@ -1,7 +1,7 @@
 import axios from 'axios'
 import storage from '../utils/storage'
 
-const baseUrl = '/api/blogs'
+const baseUrl = 'api/blogs'
 
 const getConfig = () => {
 	return {

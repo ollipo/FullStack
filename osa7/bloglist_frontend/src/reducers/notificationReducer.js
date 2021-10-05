@@ -9,11 +9,9 @@ const notificationReducer = (state = null, action) => {
 	}
 }
 let timeOut
-export const setNotification = (content, sec) => {
-
-	console.log(content, sec)
+export const setNotification = (content, type='success', sec) => {
 	return async dispatch => {
-		await dispatch(createNotification(content))
+		await dispatch(createNotification(content, type))
 		if (timeOut){
 			clearTimeout(timeOut)
 			timeOut = null
@@ -23,10 +21,13 @@ export const setNotification = (content, sec) => {
 	}
 }
 
-export const createNotification = notification => {
+export const createNotification = (content, type) => {
 	return {
 		type: 'SET_NOTIFICATION',
-		notification,
+		notification: {
+			message: content,
+			type: type
+		},
 	}
 }
 

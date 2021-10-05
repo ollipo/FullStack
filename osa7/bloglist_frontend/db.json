@@ -1,0 +1,11 @@
+{
+    "blogs": [
+        {
+			"title": "Testing the rendering of the component",
+			"author": "Moro Kolli",
+			"url": "www.testi.fi",
+			"user": "user",
+			"likes": 7
+		}
+    ]
+}
