@@ -1,12 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import Blog from './components/Blog'
+import { useDispatch } from 'react-redux'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import NewBlog from './components/NewBlog'
+import BlogList from './components/BlogList'
 import { setNotification } from './reducers/notificationReducer'
 import loginService from './services/login'
-import blogService from './services/blogs'
 import storage from './utils/storage'
 import { initializeBlogs } from './reducers/blogReducer'
 
@@ -15,7 +14,6 @@ const App = () => {
 	const [username, setUsername] = useState('')
 	const [password, setPassword] = useState('')
 	const dispatch = useDispatch()
-	const blogs = useSelector(state => state.blogs)
 
 	const blogFormRef = React.createRef()
 
@@ -48,22 +46,6 @@ const App = () => {
 			storage.saveUser(user)
 		} catch(exception) {
 			notifyWith('wrong username/password', 'error')
-		}
-	}
-
-	const handleLike = async (id) => {
-		const blogToLike = blogs.find(b => b.id === id)
-		const likedBlog = { ...blogToLike, likes: blogToLike.likes + 1, user: blogToLike.user.id }
-		await blogService.update(likedBlog)
-		blogs.map(b => b.id === id ?  { ...blogToLike, likes: blogToLike.likes + 1 } : b)
-	}
-
-	const handleRemove = async (id) => {
-		const blogToRemove = blogs.find(b => b.id === id)
-		const ok = window.confirm(`Remove blog ${blogToRemove.title} by ${blogToRemove.author}`)
-		if (ok) {
-			await blogService.remove(id)
-			blogs.filter(b => b.id !== id)
 		}
 	}
 
@@ -102,8 +84,6 @@ const App = () => {
 		)
 	}
 
-	const byLikes = (b1, b2) => b2.likes - b1.likes
-
 	return (
 		<div>
 			<h2>blogs</h2>
@@ -117,16 +97,7 @@ const App = () => {
 				<Togglable buttonLabel='create new blog'  ref={blogFormRef}>
 					<NewBlog />
 				</Togglable>}
-
-			{blogs.sort(byLikes).map(blog =>
-				<Blog
-					key={blog.id}
-					blog={blog}
-					handleLike={handleLike}
-					handleRemove={handleRemove}
-					own={user.username===blog.user.username}
-				/>
-			)}
+			<BlogList user={user} />
 		</div>
 	)
 }

@@ -1,34 +1,14 @@
 import blogService from '../services/blogs'
 
-
-
-/* export const getId = () => (100000 * Math.random()).toFixed(0)
-
-const asObject = (anecdote) => {
-  return {
-    content: anecdote,
-    id: getId(),
-    votes: 0
-  }
+export const vote = (blog) => {
+	return async dispatch => {
+		const updatedBlog = await blogService.update(blog)
+		dispatch({
+			type: 'VOTE',
+			data: updatedBlog
+		})
+	}
 }
-
-const initialState = anecdotesAtStart.map(asObject)
-
-export const voteOf = (anecdote) => {
-  return async dispatch => {
-    const changedAnecdote = {
-      ...anecdote,
-      votes: anecdote.votes + 1
-    }
-    const anecdoteInDb =
-      await anecdoteService
-      .update(changedAnecdote.id, changedAnecdote)
-    dispatch({
-      type: 'VOTE',
-      data: anecdoteInDb
-    })
-  }
-} */
 
 export const createBlog = (blog) => {
 	return async dispatch => {
@@ -37,6 +17,16 @@ export const createBlog = (blog) => {
 		dispatch({
 			type: 'NEW_BLOG',
 			data: newBlog,
+		})
+	}
+}
+
+export const removeBlog = (blog) => {
+	return async dispatch => {
+		await blogService.remove(blog)
+		dispatch({
+			type: 'REMOVE_BLOG',
+			data: blog,
 		})
 	}
 }
@@ -55,13 +45,16 @@ const blogReducer = (state = [], action) => {
 	switch(action.type) {
 	case 'NEW_BLOG':
 		return [...state, action.data]
+	case 'REMOVE_BLOG':
+		return state.filter(blog =>
+			blog.id !== action.data.id
+		)
 	case 'INIT_BLOGS':
 		return action.data
-		/* case 'VOTE':
-      const id = action.data.id
-      return state.map(anecdote =>
-        anecdote.id !== id ? anecdote : action.data
-      ) */
+	case 'VOTE':
+		return state.map(blog =>
+			blog.id !== action.data.id ? blog : action.data
+		)
 	default:
 		return state
 	}
