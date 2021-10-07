@@ -1,58 +1,33 @@
-import React, { useState, useEffect } from 'react'
-import { useDispatch } from 'react-redux'
+import React, { useEffect } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
+import Login from './components/Login'
 import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import NewBlog from './components/NewBlog'
 import BlogList from './components/BlogList'
-import { setNotification } from './reducers/notificationReducer'
-import loginService from './services/login'
-import storage from './utils/storage'
 import { initializeBlogs } from './reducers/blogReducer'
+import storage from './utils/storage'
 
 const App = () => {
-	const [user, setUser] = useState(null)
-	const [username, setUsername] = useState('')
-	const [password, setPassword] = useState('')
-	const dispatch = useDispatch()
-
 	const blogFormRef = React.createRef()
+	const dispatch = useDispatch()
+	const user = useSelector(state => state.user)
 
 	useEffect(() => {
 		dispatch(initializeBlogs())
 	}, [dispatch])
 
-
 	useEffect(() => {
-		const user = storage.loadUser()
-		setUser(user)
-	}, [])
-
-	const notifyWith = (message, type='success') => {
-		dispatch(setNotification(
-			message, type, 5))
-	}
-
-	const handleLogin = async (event) => {
-		event.preventDefault()
-		try {
-			const user = await loginService.login({
-				username, password
+		const loggedUserJSON = storage.loadUser()
+		console.log('loggedUserJSON: ', loggedUserJSON)
+		if (loggedUserJSON) {
+			const user = loggedUserJSON
+			dispatch({
+				type: 'NEW_USER',
+				data: user,
 			})
-
-			setUsername('')
-			setPassword('')
-			setUser(user)
-			notifyWith(`${user.name} welcome back!`)
-			storage.saveUser(user)
-		} catch(exception) {
-			notifyWith('wrong username/password', 'error')
 		}
-	}
-
-	const handleLogout = () => {
-		setUser(null)
-		storage.logoutUser()
-	}
+	}, [])
 
 	if ( !user ) {
 		return (
@@ -60,26 +35,7 @@ const App = () => {
 				<h2>login to application</h2>
 
 				<Notification />
-
-				<form onSubmit={handleLogin}>
-					<div>
-            username
-						<input
-							id='username'
-							value={username}
-							onChange={({ target }) => setUsername(target.value)}
-						/>
-					</div>
-					<div>
-            password
-						<input
-							id='password'
-							value={password}
-							onChange={({ target }) => setPassword(target.value)}
-						/>
-					</div>
-					<button id='login'>login</button>
-				</form>
+				<Login />
 			</div>
 		)
 	}
@@ -89,17 +45,14 @@ const App = () => {
 			<h2>blogs</h2>
 
 			<Notification />
-
-			<p>
-				{user.name} logged in <button onClick={handleLogout}>logout</button>
-			</p>
-			{
-				<Togglable buttonLabel='create new blog'  ref={blogFormRef}>
-					<NewBlog />
-				</Togglable>}
-			<BlogList user={user} />
+			<Login />
+			<Togglable buttonLabel='create new blog'  ref={blogFormRef}>
+				<NewBlog />
+			</Togglable>
+			<BlogList />
 		</div>
 	)
+
 }
 
 export default App

@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { setNotification } from '../reducers/notificationReducer'
 import { createBlog } from '../reducers/blogReducer'
 
@@ -7,13 +7,17 @@ const NewBlog = () => {
 	const [title, setTitle] = useState('')
 	const [author, setAuthor] = useState('')
 	const [url, setUrl] = useState('')
+	const user = useSelector(state => state.user)
 	const dispatch = useDispatch()
 
 	const handleNewBlog = async (event) => {
 		event.preventDefault()
+		const auth = {
+			headers: { Authorization: `bearer ${user.token}` }
+		}
 		dispatch(createBlog({
 			title, author, url
-		}))
+		}, auth))
 		dispatch(setNotification(
 			(`you added blog: ${title}`),
 			'success',

@@ -1,8 +1,8 @@
 import blogService from '../services/blogs'
 
-export const vote = (blog) => {
+export const vote = (blog, auth) => {
 	return async dispatch => {
-		const updatedBlog = await blogService.update(blog)
+		const updatedBlog = await blogService.update(blog, auth)
 		dispatch({
 			type: 'VOTE',
 			data: updatedBlog
@@ -10,9 +10,9 @@ export const vote = (blog) => {
 	}
 }
 
-export const createBlog = (blog) => {
+export const createBlog = (blog, auth) => {
 	return async dispatch => {
-		const newBlog = await blogService.create(blog)
+		const newBlog = await blogService.create(blog, auth)
 		//blogFormRef.current.toggleVisibility()
 		dispatch({
 			type: 'NEW_BLOG',
@@ -21,9 +21,9 @@ export const createBlog = (blog) => {
 	}
 }
 
-export const removeBlog = (blog) => {
+export const removeBlog = (blog, auth) => {
 	return async dispatch => {
-		await blogService.remove(blog)
+		await blogService.remove(blog, auth)
 		dispatch({
 			type: 'REMOVE_BLOG',
 			data: blog,

@@ -4,14 +4,18 @@ import Blog from './Blog'
 import { setNotification } from '../reducers/notificationReducer'
 import { removeBlog, vote } from '../reducers/blogReducer'
 
-const BlogList = ({ user }) => {
+const BlogList = () => {
 	const blogs = useSelector(state => state.blogs)
+	const user = useSelector(state => state.user)
 	const dispatch = useDispatch()
 
 	const handleLike = async (id) => {
 		const blogToLike = blogs.find(b => b.id === id)
 		const likedBlog = { ...blogToLike, likes: blogToLike.likes + 1, user: blogToLike.user.id }
-		dispatch(vote(likedBlog))
+		const auth = {
+			headers: { Authorization: `bearer ${user.token}` }
+		}
+		dispatch(vote(likedBlog, auth))
 		dispatch(setNotification(`you voted: ${likedBlog.title}`, 'success', 5))
 	}
 
@@ -19,7 +23,10 @@ const BlogList = ({ user }) => {
 		const blogToRemove = blogs.find(b => b.id === id)
 		const ok = window.confirm(`Remove blog ${blogToRemove.title} by ${blogToRemove.author}`)
 		if (ok) {
-			dispatch(removeBlog(blogToRemove))
+			const auth = {
+				headers: { Authorization: `bearer ${user.token}` }
+			}
+			dispatch(removeBlog(blogToRemove, auth))
 			dispatch(setNotification(`you deleted: ${blogToRemove.title}`, 'error', 5))
 		}
 	}
