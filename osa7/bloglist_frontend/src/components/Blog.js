@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 
 const Blog = ({ blog, handleLike, handleRemove, own }) => {
+	console.log('Blog')
 	const [visible, setVisible] = useState(false)
 
 	const blogStyle = {

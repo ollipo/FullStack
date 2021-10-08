@@ -5,21 +5,25 @@ import Notification from './components/Notification'
 import Togglable from './components/Togglable'
 import NewBlog from './components/NewBlog'
 import BlogList from './components/BlogList'
+import UserList from './components/UserList'
 import { initializeBlogs } from './reducers/blogReducer'
+import { initializeUsers } from './reducers/userReducer'
 import storage from './utils/storage'
+import {
+	BrowserRouter as Router,
+	Switch, Route
+} from 'react-router-dom'
 
 const App = () => {
 	const blogFormRef = React.createRef()
 	const dispatch = useDispatch()
 	const user = useSelector(state => state.user)
+	console.log('before useEffects')
 
 	useEffect(() => {
 		dispatch(initializeBlogs())
-	}, [dispatch])
-
-	useEffect(() => {
+		dispatch(initializeUsers())
 		const loggedUserJSON = storage.loadUser()
-		console.log('loggedUserJSON: ', loggedUserJSON)
 		if (loggedUserJSON) {
 			const user = loggedUserJSON
 			dispatch({
@@ -41,16 +45,24 @@ const App = () => {
 	}
 
 	return (
-		<div>
-			<h2>blogs</h2>
-
-			<Notification />
-			<Login />
-			<Togglable buttonLabel='create new blog'  ref={blogFormRef}>
-				<NewBlog />
-			</Togglable>
-			<BlogList />
-		</div>
+		<Router>
+			<Switch>
+				<Route path='/users'>
+					<h2>blogs</h2>
+					<Login />
+					<UserList />
+				</Route>
+				<Route>
+					<h2>blogs</h2>
+					<Notification />
+					<Login />
+					<Togglable buttonLabel='create new blog'  ref={blogFormRef}>
+						<NewBlog />
+					</Togglable>
+					<BlogList />
+				</Route>
+			</Switch>
+		</Router>
 	)
 
 }

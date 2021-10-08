@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { removeNotification } from '../reducers/notificationReducer'
-import { loginUser, logoutUser } from '../reducers/userReducer'
+import { loginUser, logoutUser } from '../reducers/loginReducer'
 
 const Login = () => {
+	console.log('Login')
 	const [username, setUsername] = useState('')
 	const [password, setPassword] = useState('')
 	const user = useSelector(state => state.user)
 
-	console.log(user)
 	const dispatch = useDispatch()
 
 	const handleLogin = async (event) => {

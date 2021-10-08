@@ -5,13 +5,20 @@ import { setNotification } from '../reducers/notificationReducer'
 import { removeBlog, vote } from '../reducers/blogReducer'
 
 const BlogList = () => {
+	console.log('BlogList')
 	const blogs = useSelector(state => state.blogs)
 	const user = useSelector(state => state.user)
 	const dispatch = useDispatch()
 
 	const handleLike = async (id) => {
 		const blogToLike = blogs.find(b => b.id === id)
-		const likedBlog = { ...blogToLike, likes: blogToLike.likes + 1, user: blogToLike.user.id }
+		console.log('blogToLike: ', blogToLike)
+		const likedBlog = {
+			...blogToLike,
+			likes: blogToLike.likes + 1,
+			user: blogToLike.user.id
+		}
+		console.log('likedBlog: ', likedBlog)
 		const auth = {
 			headers: { Authorization: `bearer ${user.token}` }
 		}

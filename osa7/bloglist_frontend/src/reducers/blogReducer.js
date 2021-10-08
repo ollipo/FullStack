@@ -1,8 +1,10 @@
 import blogService from '../services/blogs'
 
 export const vote = (blog, auth) => {
+	console.log('inVote')
 	return async dispatch => {
 		const updatedBlog = await blogService.update(blog, auth)
+		console.log('updatedBlog: ', updatedBlog)
 		dispatch({
 			type: 'VOTE',
 			data: updatedBlog
@@ -13,7 +15,6 @@ export const vote = (blog, auth) => {
 export const createBlog = (blog, auth) => {
 	return async dispatch => {
 		const newBlog = await blogService.create(blog, auth)
-		//blogFormRef.current.toggleVisibility()
 		dispatch({
 			type: 'NEW_BLOG',
 			data: newBlog,
@@ -42,6 +43,7 @@ export const initializeBlogs = () => {
 }
 
 const blogReducer = (state = [], action) => {
+	console.log('blogReducer: ', action)
 	switch(action.type) {
 	case 'NEW_BLOG':
 		return [...state, action.data]
