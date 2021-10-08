@@ -11,7 +11,7 @@ import { initializeUsers } from './reducers/userReducer'
 import storage from './utils/storage'
 import {
 	BrowserRouter as Router,
-	Switch, Route
+	Switch, Route, Link
 } from 'react-router-dom'
 
 const App = () => {
@@ -19,6 +19,10 @@ const App = () => {
 	const dispatch = useDispatch()
 	const user = useSelector(state => state.user)
 	console.log('before useEffects')
+
+	const padding = {
+		padding: 5
+	}
 
 	useEffect(() => {
 		dispatch(initializeBlogs())
@@ -46,7 +50,17 @@ const App = () => {
 
 	return (
 		<Router>
+			<div>
+				<Link style={padding} to="/">home</Link>
+				<Link style={padding} to="/users">users</Link>
+			</div>
 			<Switch>
+				<Route path="/users/:id">
+					<h2>blogs</h2>
+					<Notification />
+					<Login />
+					<UserList />
+				</Route>
 				<Route path='/users'>
 					<h2>blogs</h2>
 					<Login />
