@@ -21,7 +21,7 @@ const App = () => {
 	console.log('before useEffects')
 
 	const padding = {
-		padding: 5
+		backgroundColor: 'lightgrey'
 	}
 
 	useEffect(() => {
@@ -50,26 +50,41 @@ const App = () => {
 
 	return (
 		<Router>
-			<div>
-				<Link style={padding} to="/">home</Link>
-				<Link style={padding} to="/users">users</Link>
+			<div style={padding}>
+				<table>
+					<tbody>
+						<tr>
+							<td>
+								<Link to="/">blogs</Link>
+							</td>
+							<td>
+								<Link to="/users">users</Link>
+							</td>
+							<td>
+								<Login />
+							</td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
 			<Switch>
-				<Route path="/users/:id">
+				<Route path='/users/:id'>
 					<h2>blogs</h2>
 					<Notification />
-					<Login />
 					<UserList />
 				</Route>
 				<Route path='/users'>
 					<h2>blogs</h2>
-					<Login />
 					<UserList />
 				</Route>
-				<Route>
+				<Route path='/blogs/:id'>
 					<h2>blogs</h2>
 					<Notification />
-					<Login />
+					<BlogList />
+				</Route>
+				<Route>
+					<h2>blog app</h2>
+					<Notification />
 					<Togglable buttonLabel='create new blog'  ref={blogFormRef}>
 						<NewBlog />
 					</Togglable>
