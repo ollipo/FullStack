@@ -18,11 +18,6 @@ const BlogInfo = ({ blog, handleLike, handleRemove, own }) => {
 			</div>
 			<div>added by {blog.user.name}</div>
 			{own&&<button onClick={() => handleRemove(blog.id)}>remove</button>}
-			<h3>comments:</h3>
-			<div>{blog.comments
-				.map(comment =>
-					<li key={comment.id}>{comment.comment}</li>)}
-			</div>
 		</div>
 	)
 }

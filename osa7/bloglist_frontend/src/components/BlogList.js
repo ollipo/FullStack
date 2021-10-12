@@ -2,6 +2,8 @@ import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import Blog from './Blog'
 import BlogInfo from './BlogInfo'
+import Comment from './Comment'
+import NewComment from './NewComment'
 import { setNotification } from '../reducers/notificationReducer'
 import { removeBlog, vote } from '../reducers/blogReducer'
 import {
@@ -15,6 +17,7 @@ const BlogList = () => {
 	const dispatch = useDispatch()
 	const id = useParams().id
 	const routeBlog = blogs.find(n => n.id === id)
+	console.log('routeBlog: ', routeBlog)
 
 	const handleLike = async (id) => {
 		const blogToLike = blogs.find(b => b.id === id)
@@ -48,13 +51,31 @@ const BlogList = () => {
 
 	if (routeBlog) {
 		return (
-			<BlogInfo
-				key={routeBlog.id}
-				blog={routeBlog}
-				handleLike={handleLike}
-				handleRemove={handleRemove}
-				own={user.username===routeBlog.user.username}
-			/>
+			<div>
+				<div>
+					<BlogInfo
+						key={routeBlog.id}
+						blog={routeBlog}
+						handleLike={handleLike}
+						handleRemove={handleRemove}
+						own={user.username===routeBlog.user.username}
+					/>
+				</div>
+				<div>
+					<NewComment
+						key={routeBlog.id}
+						blog={routeBlog}
+					/>
+				</div>
+				<div>
+					{routeBlog.comments.map(comment =>
+						<Comment
+							key={comment.id}
+							comment={comment}
+						/>
+					)}
+				</div>
+			</div>
 		)
 	}
 

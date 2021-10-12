@@ -5,6 +5,7 @@ export const vote = (blog, auth) => {
 	return async dispatch => {
 		const updatedBlog = await blogService.update(blog, auth)
 		console.log('updatedBlog: ', updatedBlog)
+		dispatch(initializeBlogs())
 		dispatch({
 			type: 'VOTE',
 			data: updatedBlog
@@ -18,6 +19,17 @@ export const createBlog = (blog, auth) => {
 		dispatch({
 			type: 'NEW_BLOG',
 			data: newBlog,
+		})
+	}
+}
+
+export const createComment = (comment, id) => {
+	return async dispatch => {
+		const commentedBlog = await blogService.createComment(comment, id)
+		dispatch(initializeBlogs())
+		dispatch({
+			type: 'ADD_COMMENT',
+			data: commentedBlog,
 		})
 	}
 }
@@ -54,6 +66,10 @@ const blogReducer = (state = [], action) => {
 	case 'INIT_BLOGS':
 		return action.data
 	case 'VOTE':
+		return state.map(blog =>
+			blog.id !== action.data.id ? blog : action.data
+		)
+	case 'ADD_COMMENT':
 		return state.map(blog =>
 			blog.id !== action.data.id ? blog : action.data
 		)
