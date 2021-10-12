@@ -9,6 +9,7 @@ import UserList from './components/UserList'
 import { initializeBlogs } from './reducers/blogReducer'
 import { initializeUsers } from './reducers/userReducer'
 import storage from './utils/storage'
+import { Navbar, Nav } from 'react-bootstrap'
 import {
 	BrowserRouter as Router,
 	Switch, Route, Link
@@ -19,10 +20,6 @@ const App = () => {
 	const dispatch = useDispatch()
 	const user = useSelector(state => state.user)
 	console.log('before useEffects')
-
-	const padding = {
-		backgroundColor: 'lightgrey'
-	}
 
 	useEffect(() => {
 		dispatch(initializeBlogs())
@@ -39,7 +36,7 @@ const App = () => {
 
 	if ( !user ) {
 		return (
-			<div>
+			<div className="container">
 				<h2>login to application</h2>
 
 				<Notification />
@@ -49,49 +46,48 @@ const App = () => {
 	}
 
 	return (
-		<Router>
-			<div style={padding}>
-				<table>
-					<tbody>
-						<tr>
-							<td>
+		<div className="container">
+			<Router>
+				<Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+					<Navbar.Toggle aria-controls="responsive-navbar-nav" />
+					<Navbar.Collapse id="responsive-navbar-nav">
+						<Nav className="mr-auto">
+							<Nav.Link href="#" as="span">
 								<Link to="/">blogs</Link>
-							</td>
-							<td>
+							</Nav.Link>
+							<Nav.Link href="#" as="span">
 								<Link to="/users">users</Link>
-							</td>
-							<td>
-								<Login />
-							</td>
-						</tr>
-					</tbody>
-				</table>
-			</div>
-			<Switch>
-				<Route path='/users/:id'>
-					<h2>blogs</h2>
-					<Notification />
-					<UserList />
-				</Route>
-				<Route path='/users'>
-					<h2>blogs</h2>
-					<UserList />
-				</Route>
-				<Route path='/blogs/:id'>
-					<h2>blogs</h2>
-					<Notification />
-					<BlogList />
-				</Route>
-				<Route>
-					<h2>blog app</h2>
-					<Notification />
-					<Togglable buttonLabel='create new blog'  ref={blogFormRef}>
-						<NewBlog />
-					</Togglable>
-					<BlogList />
-				</Route>
-			</Switch>
-		</Router>
+							</Nav.Link>
+						</Nav>
+						<Navbar.Text>
+							<Login />
+						</Navbar.Text>
+					</Navbar.Collapse>
+				</Navbar>
+				<Switch>
+					<Route path='/users/:id'>
+						<Notification />
+						<UserList />
+					</Route>
+					<Route path='/users'>
+						<UserList />
+					</Route>
+					<Route path='/blogs/:id'>
+						<h2>blog:</h2>
+						<Notification />
+						<BlogList />
+					</Route>
+					<Route>
+						<h2>blog app</h2>
+						<Notification />
+						<Togglable buttonLabel='create new blog'  ref={blogFormRef}>
+							<NewBlog />
+						</Togglable>
+						<BlogList />
+					</Route>
+				</Switch>
+			</Router>
+		</div>
 	)
 
 }

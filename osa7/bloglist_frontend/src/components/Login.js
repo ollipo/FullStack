@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { removeNotification } from '../reducers/notificationReducer'
 import { loginUser, logoutUser } from '../reducers/loginReducer'
+import { Form, Button } from 'react-bootstrap'
 
 const Login = () => {
 	console.log('Login')
@@ -32,25 +33,24 @@ const Login = () => {
 	if ( !user ) {
 		return (
 			<div>
-				<form onSubmit={handleLogin}>
-					<div>
-            username
-						<input
+				<Form onSubmit={handleLogin}>
+					<Form.Group>
+						<Form.Label>username</Form.Label>
+						<Form.Control
 							id='username'
 							value={username}
 							onChange={({ target }) => setUsername(target.value)}
 						/>
-					</div>
-					<div>
-            password
-						<input
+						<Form.Label>password</Form.Label>
+						<Form.Control
 							id='password'
 							value={password}
 							onChange={({ target }) => setPassword(target.value)}
 						/>
-					</div>
-					<button id='login'>login</button>
-				</form>
+						<Button variant="primary" type="submit" id='login'>login</Button>
+					</Form.Group>
+
+				</Form>
 			</div>
 		)
 	}
@@ -58,7 +58,7 @@ const Login = () => {
 	return (
 		<div>
 			<p>
-				{user.name} logged in <button onClick={handleLogout}>logout</button>
+				{user.name} logged in <Button variant="secondary" onClick={handleLogout}>logout</Button>
 			</p>
 		</div>
 	)
