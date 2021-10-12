@@ -2,8 +2,7 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { Table } from 'react-bootstrap'
 
-const User = ({ user }) => {
-	console.log('User: ', user)
+const User = ({ users }) => {
 	return (
 		<Table striped variant="light" hover >
 			<thead>
@@ -13,14 +12,16 @@ const User = ({ user }) => {
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<td>
-						<Link to={`/users/${user.id}`}>{user.name}</Link>
-					</td>
-					<td>
-						{user.blogs.length}
-					</td>
-				</tr>
+				{users.map(user =>
+					<tr key={user.id}>
+						<td>
+							<Link to={`/users/${user.id}`}>{user.name}</Link>
+						</td>
+						<td>
+							{user.blogs.length}
+						</td>
+					</tr>
+				)}
 			</tbody>
 		</Table>
 	)

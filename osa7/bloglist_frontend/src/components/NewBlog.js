@@ -6,7 +6,6 @@ import { Button } from 'react-bootstrap'
 import { Form } from 'react-bootstrap'
 
 const NewBlog = () => {
-	console.log('NewBlog')
 	const [title, setTitle] = useState('')
 	const [author, setAuthor] = useState('')
 	const [url, setUrl] = useState('')

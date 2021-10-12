@@ -3,10 +3,8 @@ import { useDispatch } from 'react-redux'
 import { createComment } from '../reducers/blogReducer'
 
 const NewComment = ({ blog }) => {
-	console.log('NewComment')
 	const [comment, setComment] = useState('')
 	const dispatch = useDispatch()
-	console.log('newComment: ', comment)
 	const blogStyle = {
 		paddingTop: 10,
 		paddingLeft: 2,
@@ -15,7 +13,6 @@ const NewComment = ({ blog }) => {
 
 	const handleComment = async (event) => {
 		event.preventDefault()
-		console.log('commentedBlog in handle: ', comment)
 		dispatch(createComment(comment, blog.id))
 	}
 

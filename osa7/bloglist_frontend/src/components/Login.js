@@ -5,7 +5,6 @@ import { loginUser, logoutUser } from '../reducers/loginReducer'
 import { Form, Button } from 'react-bootstrap'
 
 const Login = () => {
-	console.log('Login')
 	const [username, setUsername] = useState('')
 	const [password, setPassword] = useState('')
 	const user = useSelector(state => state.user)

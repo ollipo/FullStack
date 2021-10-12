@@ -1,7 +1,6 @@
 import React from 'react'
 
 const UserInfo = ({ user }) => {
-	console.log('UserInfo: ', user)
 	return (
 		<div>
 			<h2>{user.name}</h2>

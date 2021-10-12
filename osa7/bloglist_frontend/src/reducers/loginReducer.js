@@ -36,12 +36,6 @@ const loginReducer = (state = null, action) => {
 		return action.data
 	case 'REMOVE_USER':
 		return state = null
-	/* case 'INIT_BLOGS':
-		return action.data
-	case 'VOTE':
-		return state.map(blog =>
-			blog.id !== action.data.id ? blog : action.data
-		) */
 	default:
 		return state
 	}

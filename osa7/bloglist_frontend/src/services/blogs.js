@@ -23,10 +23,7 @@ const remove = (blog, auth) => {
 }
 
 const createComment = (comment, id) => {
-	console.log('comment: ', comment)
-	console.log('id: ', id)
 	const request = axios.post(`${baseUrl}/${id}/comments`, { comment: comment })
-	console.log('request: ', request)
 	return request.then(response => response.data)
 }
 

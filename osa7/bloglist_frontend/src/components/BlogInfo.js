@@ -2,13 +2,6 @@ import React from 'react'
 import { ListGroup, Button } from 'react-bootstrap'
 
 const BlogInfo = ({ blog, handleLike, handleRemove, own }) => {
-	console.log('BlogInfo')
-
-	/* const blogStyle = {
-		paddingTop: 10,
-		paddingLeft: 2,
-		marginBottom: 5
-	} */
 
 	return (
 		<ListGroup variant="flush">

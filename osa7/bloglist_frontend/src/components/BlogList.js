@@ -11,23 +11,19 @@ import {
 } from 'react-router-dom'
 
 const BlogList = () => {
-	console.log('BlogList')
 	const blogs = useSelector(state => state.blogs)
 	const user = useSelector(state => state.user)
 	const dispatch = useDispatch()
 	const id = useParams().id
 	const routeBlog = blogs.find(n => n.id === id)
-	console.log('routeBlog: ', routeBlog)
 
 	const handleLike = async (id) => {
 		const blogToLike = blogs.find(b => b.id === id)
-		console.log('blogToLike: ', blogToLike)
 		const likedBlog = {
 			...blogToLike,
 			likes: blogToLike.likes + 1,
 			user: blogToLike.user.id
 		}
-		console.log('likedBlog: ', likedBlog)
 		const auth = {
 			headers: { Authorization: `bearer ${user.token}` }
 		}
@@ -70,7 +66,7 @@ const BlogList = () => {
 				<div>
 					{routeBlog.comments.map(comment =>
 						<Comment
-							key={comment.id}
+							key={comment._id}
 							comment={comment}
 						/>
 					)}

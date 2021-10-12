@@ -7,7 +7,6 @@ import {
 } from 'react-router-dom'
 
 const UserList = () => {
-	console.log('UserList')
 	const users = useSelector(state => state.users)
 	const id = useParams().id
 	const routeUser = users.find(n => n.id === id)
@@ -24,13 +23,9 @@ const UserList = () => {
 	return (
 		<div>
 			<h2>users</h2>
-			{users
-				.map(user =>
-					<User
-						key={user.id}
-						user={user}
-					/>
-				)}
+			<User
+				users={users}
+			/>
 		</div>
 	)
 

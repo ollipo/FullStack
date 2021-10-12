@@ -19,7 +19,6 @@ const App = () => {
 	const blogFormRef = React.createRef()
 	const dispatch = useDispatch()
 	const user = useSelector(state => state.user)
-	console.log('before useEffects')
 
 	useEffect(() => {
 		dispatch(initializeBlogs())
@@ -38,7 +37,6 @@ const App = () => {
 		return (
 			<div className="container">
 				<h2>login to application</h2>
-
 				<Notification />
 				<Login />
 			</div>
