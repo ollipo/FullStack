@@ -4,16 +4,20 @@ import { useQuery } from '@apollo/client'
 import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
-import { ALL_AUTHORS } from './queries'
+import { ALL_AUTHORS, ALL_BOOKS } from './queries'
 
 const App = () => {
   const [page, setPage] = useState('authors')
 
   const result = useQuery(ALL_AUTHORS)
+  const resultBooks = useQuery(ALL_BOOKS)
 
     if (result.loading)  {
-        return <div>loading...</div>
+        return <div>loading authors...</div>
     }
+    if (resultBooks.loading)  {
+      return <div>loading books...</div>
+  }
 
   return (
     <div>
@@ -30,6 +34,7 @@ const App = () => {
 
       <Books
         show={page === 'books'}
+        books={resultBooks.data.allBooks}
       />
 
       <NewBook
