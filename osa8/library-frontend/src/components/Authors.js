@@ -1,6 +1,4 @@
-  
 import React from 'react'
-import AuthorForm from './AuthorForm'
 
 const Authors = ({ authors, show }) => {
   if (!show) {
@@ -30,9 +28,6 @@ const Authors = ({ authors, show }) => {
           )}
         </tbody>
       </table>
-      <h2>Set birthyear</h2>
-      <AuthorForm authors={authors}/>
-
     </div>
   )
 }

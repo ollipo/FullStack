@@ -17,6 +17,12 @@ query {
     title
     published
     author
+      {
+        name
+        id
+        born
+        bookCount
+      }
     id
     genres
   }
@@ -34,7 +40,9 @@ mutation createBook($title: String!, $published: Int!, $author: String!, $genres
     title
     published
     id
-    author
+    author {
+      born
+    }
     genres
   }
 }
@@ -46,6 +54,14 @@ export const EDIT_AUTHOR = gql`
       name
       born
       id
+    }
+  }
+`
+
+export const LOGIN = gql`
+  mutation login($username: String!, $password: String!) {
+    login(username: $username, password: $password)  {
+      value
     }
   }
 `

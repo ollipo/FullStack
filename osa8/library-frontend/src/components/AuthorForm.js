@@ -2,12 +2,16 @@ import React, { useState } from 'react'
 import { useMutation } from '@apollo/client'
 import { EDIT_AUTHOR } from '../queries'
 
-const AuthorForm = ({ authors }) => {
+const AuthorForm = ({ authors, show, setPage }) => {
   const [name, setName] = useState('')
   const [setBornTo, setBornYear] = useState('')
 
 
   const [ editAuthor ] = useMutation(EDIT_AUTHOR)
+
+  if (!show) {
+    return null
+  }
 
   const submit = async (event) => {
     event.preventDefault()
@@ -16,13 +20,14 @@ const AuthorForm = ({ authors }) => {
 
     setName('')
     setBornYear('')
+    setPage('authors')
   }
 
   return (
     <div>
+      <h2>Set birthyear</h2>
       <form onSubmit={submit}>
         <div>
-            
           <select 
             value={name} 
             onChange={({ target }) => setName(target.value)}>
