@@ -7,6 +7,7 @@ import NewBook from './components/NewBook'
 import { ALL_AUTHORS, ALL_BOOKS } from './queries'
 import LoginForm from './components/LoginForm'
 import AuthorForm from './components/AuthorForm'
+import Recommendations from './components/Recommendations'
 
 const App = () => {
   const [page, setPage] = useState('books')
@@ -17,7 +18,7 @@ const App = () => {
     pollInterval: 2000
   })
   const resultBooks = useQuery(ALL_BOOKS)
-
+  
   useEffect(() => {
     const token = window.localStorage.getItem('library-user-token')
     if (token) {
@@ -49,8 +50,8 @@ const App = () => {
       return (
         <div>
       <div>
-        <button onClick={() => setPage('authors')}>authors</button>
         <button onClick={() => setPage('books')}>books</button>
+        <button onClick={() => setPage('authors')}>authors</button>
         <button onClick={() => setPage('login')}>log in</button>
       </div>
       <Notify errorMessage={errorMessage} />
@@ -76,8 +77,9 @@ const App = () => {
   return (
     <div>
       <div>
-        <button onClick={() => setPage('authors')}>authors</button>
         <button onClick={() => setPage('books')}>books</button>
+        <button onClick={() => setPage('authors')}>authors</button>
+        <button onClick={() => setPage('recommend')}>recommend</button>
         <button onClick={() => setPage('add')}>add book</button>
         <button onClick={() => setPage('edit')}>edit author</button>
         <button onClick={() => logout()}>log out</button>
@@ -102,6 +104,11 @@ const App = () => {
         show={page === 'edit'}
         authors={result.data.allAuthors}
         setPage={setPage}
+      />
+
+      <Recommendations
+        show={page === 'recommend'}
+        books={resultBooks.data.allBooks}
       />
     </div>
   )
