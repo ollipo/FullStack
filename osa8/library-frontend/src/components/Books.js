@@ -1,6 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 const Books = ({ books, show } ) => {
+  const [genre, setGenre] = useState(null)
+  const genreArrays = books.map(b =>
+                        b.genres.map(g => g))
+  const genresList = [].concat.apply([], genreArrays)
+  let uniqueGenres = [...new Set(genresList)]
+  const filteredBooks = books.filter(b => b.genres.includes(genre))
+
   if (!show) {
     return null
   }
@@ -20,7 +27,14 @@ const Books = ({ books, show } ) => {
               published
             </th>
           </tr>
-          {books.map(a =>
+          {!genre && books.map(a =>
+            <tr key={a.title}>
+              <td>{a.title}</td>
+              <td>{a.author.name}</td>
+              <td>{a.published}</td>
+            </tr>
+          )}
+          {genre && filteredBooks.map(a =>
             <tr key={a.title}>
               <td>{a.title}</td>
               <td>{a.author.name}</td>
@@ -29,6 +43,15 @@ const Books = ({ books, show } ) => {
           )}
         </tbody>
       </table>
+      <div>
+        <button onClick={() => setGenre(null)}>all genres</button>
+        {uniqueGenres.map(b =>
+          <button 
+            key={b} 
+            onClick={() => setGenre(b)}>
+              {b}
+          </button>)}
+      </div>
     </div>
   )
 }
