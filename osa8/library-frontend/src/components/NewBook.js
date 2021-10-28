@@ -13,7 +13,7 @@ const NewBook = ({ show, setPage }) => {
   const [ createBook ] = useMutation(CREATE_BOOK, {
     refetchQueries: [  {query: ALL_BOOKS } ]
   })
-
+  
   if (!show) {
     return null
   }

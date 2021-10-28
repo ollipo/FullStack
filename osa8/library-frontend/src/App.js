@@ -1,10 +1,10 @@
 
 import React, { useState, useEffect } from 'react'
-import { useQuery, useApolloClient } from '@apollo/client'
+import { useQuery, useApolloClient, useSubscription } from '@apollo/client'
 import Authors from './components/Authors'
 import Books from './components/Books'
 import NewBook from './components/NewBook'
-import { ALL_AUTHORS, ALL_BOOKS } from './queries'
+import { ALL_AUTHORS, ALL_BOOKS, BOOK_ADDED } from './queries'
 import LoginForm from './components/LoginForm'
 import AuthorForm from './components/AuthorForm'
 import Recommendations from './components/Recommendations'
@@ -24,14 +24,21 @@ const App = () => {
     if (token) {
       setToken(token)
     }
-    }, [])
+  }, [])
 
-    if (result.loading)  {
-        return <div>loading authors...</div>
+  useSubscription(BOOK_ADDED, {
+    onSubscriptionData: ({ subscriptionData }) => {
+      window.alert(`Book: ${subscriptionData.data.bookAdded.title} added`)
     }
-    if (resultBooks.loading)  {
-      return <div>loading books...</div>
-    }
+  })
+
+
+  if (result.loading)  {
+      return <div>loading authors...</div>
+  }
+  if (resultBooks.loading)  {
+    return <div>loading books...</div>
+  }
 
   const logout = () => {
     setToken(null)
