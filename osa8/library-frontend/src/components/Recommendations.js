@@ -4,7 +4,7 @@ import { USER, ALL_BOOKS } from '../queries'
 
 const Recommendations = ({ show } ) => {
     const user = useQuery(USER)
-    const [getBooks, filteredBooks ] = useLazyQuery(ALL_BOOKS)
+    const [getBooks, filteredBooks] = useLazyQuery(ALL_BOOKS)
 
     useEffect(() => {            
         if (user.data) {
