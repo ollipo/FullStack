@@ -26,9 +26,27 @@ const App = () => {
     }
   }, [])
 
+  const updateCacheWith = (addedBook) => {
+    console.log('ucw in App', addedBook)
+    const includedIn = (set, object) => 
+      set.map(p => p.id).includes(object.id)  
+      console.log('includeIn in App', includedIn)
+    const dataInStore = client.readQuery({ query: ALL_BOOKS })
+    console.log('dis in App', dataInStore)
+    if (!includedIn(dataInStore.allBooks, addedBook)) {
+      client.writeQuery({
+        query: ALL_BOOKS,
+        data: { allBooks : dataInStore.allBooks.concat(addedBook) }
+      })
+    }   
+  }
+
   useSubscription(BOOK_ADDED, {
     onSubscriptionData: ({ subscriptionData }) => {
+      const addedBook = subscriptionData.data.bookAdded
+      console.log('osd in App', addedBook)
       window.alert(`Book: ${subscriptionData.data.bookAdded.title} added`)
+      updateCacheWith(addedBook)
     }
   })
 
@@ -105,6 +123,7 @@ const App = () => {
       <NewBook
         show={page === 'add'}
         setPage={setPage}
+        updateCacheWith={updateCacheWith}
       />
 
       <AuthorForm
