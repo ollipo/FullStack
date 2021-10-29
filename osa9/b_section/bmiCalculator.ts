@@ -1,6 +1,4 @@
-type Result = String;
-
-const calculateBmi = (a: number, b: number) : Result => {
+const calculateBmi = (a: number, b: number) : String => {
     const bmi = b / ((a/100) * (a/100))
 
     if(bmi < 18.5) {
