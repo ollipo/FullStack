@@ -7,7 +7,7 @@ import { setPatientInfoList, useStateValue } from '../state';
 import { Patient } from '../types';
 
 const PatientInfo = () => {
-    const [{ patientsInfo }, dispatch] = useStateValue();
+    const [{ patientsInfo, diagnoses }, dispatch] = useStateValue();
     const { id } = useParams<{ id: string }>();
     useEffect(() => {
         if(!patientsInfo[id]){
@@ -31,6 +31,18 @@ const PatientInfo = () => {
                     <Header as="h1">{patientsInfo[id].name}<Icon name={iconName}/></Header>
                     ssn: {patientsInfo[id].ssn} <br/>
                     occupation: {patientsInfo[id].occupation}
+                    <Header as="h3">entries</Header>
+                    {patientsInfo[id].entries.map(e => 
+                        <p key={e.date}>
+                            {e.date}
+                            <i> {e.description}</i>
+                        </p>)} <br/>
+                        <ul>
+                        {patientsInfo[id].entries.map(entry =>
+                            entry.diagnosisCodes).map(codes =>
+                                codes?.map(code =>
+                                    <li key={code}>{code } {diagnoses[code]?.name}</li>))}
+                        </ul>
                 </Container><div></div>
             </div>  
         );
