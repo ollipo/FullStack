@@ -5,9 +5,10 @@ import { Container, Header, Icon } from "semantic-ui-react";
 import { apiBaseUrl } from '../constants';
 import { setPatientInfoList, useStateValue } from '../state';
 import { Patient } from '../types';
+import EntryInfo from './EntryInfo';
 
 const PatientInfo = () => {
-    const [{ patientsInfo, diagnoses }, dispatch] = useStateValue();
+    const [{ patientsInfo }, dispatch] = useStateValue();
     const { id } = useParams<{ id: string }>();
     useEffect(() => {
         if(!patientsInfo[id]){
@@ -32,17 +33,8 @@ const PatientInfo = () => {
                     ssn: {patientsInfo[id].ssn} <br/>
                     occupation: {patientsInfo[id].occupation}
                     <Header as="h3">entries</Header>
-                    {patientsInfo[id].entries.map(e => 
-                        <p key={e.date}>
-                            {e.date}
-                            <i> {e.description}</i>
-                        </p>)} <br/>
-                        <ul>
-                        {patientsInfo[id].entries.map(entry =>
-                            entry.diagnosisCodes).map(codes =>
-                                codes?.map(code =>
-                                    <li key={code}>{code } {diagnoses[code]?.name}</li>))}
-                        </ul>
+                    {patientsInfo[id].entries.map(entry => 
+                        <EntryInfo key={entry.id} entry={entry}/>)}
                 </Container><div></div>
             </div>  
         );
@@ -51,3 +43,15 @@ const PatientInfo = () => {
 };
 
 export default PatientInfo;
+
+/* {patientsInfo[id].entries.map(e => 
+    <p key={e.date}>
+        {e.date}
+        <i> {e.description}</i>
+    </p>)} <br/>
+    <ul>
+    {patientsInfo[id].entries.map(entry =>
+        entry.diagnosisCodes).map(codes =>
+            codes?.map(code =>
+                <li key={code}>{code } {diagnoses[code]?.name}</li>))}
+    </ul> */
