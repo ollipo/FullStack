@@ -94,7 +94,6 @@ const Hospital = ({entry}: {entry: HospitalEntry}) => {
 };
 
 const EntryInfo = ({entry}: {entry: Entry}) => {
-    //const courseObj = Object.values(course)
     switch (entry.type) {
         case "HealthCheck":
             return <HealthCheck entry={entry} />;                
@@ -106,18 +105,5 @@ const EntryInfo = ({entry}: {entry: Entry}) => {
             return assertNever(entry);
     }
 };
-
-/* const Content = ({courseParts}: {courseParts: CoursePart[]}) => {
-    return (
-        <div>
-            {courseParts.map(course => 
-                <Part 
-                    key={course.name} 
-                    course={course} 
-                />
-            )}
-        </div>
-    )
-} */
 
 export default EntryInfo;
